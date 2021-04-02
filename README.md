@@ -29,4 +29,4 @@ temos o seguinte `automato.json`:
 ## Desenvolvedores
 
 - Natália Braga da Fonseca  
-- Vinícius José Santana de Mendoça
+- Vinícius José Santana de Mendonça
