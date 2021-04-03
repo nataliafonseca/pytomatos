@@ -9,10 +9,14 @@ print("="*20, "Pytomatos", "="*20)
 print("="*51)
 
 criterio_aceite = False
+current_state = automato_teste.initial_state
 
-#palavra_teste = str(input("Informe a palavra teste para o autômato: "))
-#split_palavra = list(palavra_teste)
-print(automato_teste.transitions[automato_teste.current_state][1][4])
+palavra_teste = str(input("Informe a palavra teste para o autômato: "))
+print(f'inicia em: {current_state}')
+for index, letter in enumerate(palavra_teste):
+    current_state = (automato_teste.transitions.get(current_state).get(palavra_teste[index]))
+    print(f'recebe: {letter}')
+    print(f'vai para: {current_state}')
 """
 while True:
     for x in split_palavra:
@@ -33,6 +37,6 @@ else:
     print(f"A palavra {palavra_teste} foi rejeitada")
 """
 
-if __name__ == '__main__':
-    print(automato_teste)
+# if __name__ == '__main__':
+    # print(automato_teste)
 
