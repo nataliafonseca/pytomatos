@@ -16,7 +16,7 @@ temos o seguinte `automato.json`:
 {
   "alphabet": ["0", "1"],
   "initial_state": "q0",
-  "final_state": "q3",
+  "final_states": ["q3"],
   "transitions": {
     "q0": {
       "0": "q1",
@@ -36,6 +36,7 @@ temos o seguinte `automato.json`:
     }
   }
 }
+
 ```
 
 ## Desenvolvedores

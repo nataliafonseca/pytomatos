@@ -7,14 +7,14 @@ class Automato:
         self.automato = self.ler_json(automato_json)
         self.alfabeto = self.automato['alphabet']
         self.estado_inicial = self.automato['initial_state']
-        self.estado_final = self.automato['final_state']
+        self.estados_finais = self.automato['final_states']
         self.transicoes = self.automato['transitions']
 
     def __repr__(self):
         string = ''
         string += f'Alfabeto: {self.alfabeto}\n'
         string += f'Estado Inicial: {self.estado_inicial}\n'
-        string += f'Estado Final: {self.estado_final}\n'
+        string += f'Estado Final: {self.estados_finais}\n'
         string += f'Transições: \n'
         for chave, valor in self.transicoes.items():
             string += f'    {chave}: {valor}\n'
@@ -39,7 +39,7 @@ class Automato:
             estado_atual = (self.transicoes.get(
                 estado_atual).get(letra))
 
-        if estado_atual == self.estado_final:
+        if estado_atual in self.estados_finais:
             print(f"\nA palavra {palavra} foi aceita.")
             return True
         else:
