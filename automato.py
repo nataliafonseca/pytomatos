@@ -7,7 +7,6 @@ class Automato:
         self.automato = self.ler_json(automato_json)
         self.alphabet = self.automato['alphabet']
         self.initial_state = self.automato['initial_state']
-        self.current_state = self.automato['initial_state']
         self.final_state = self.automato['final_state']
         self.transitions = self.automato['transitions']
 
