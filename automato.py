@@ -5,27 +5,43 @@ class Automato:
     def __init__(self, automato_json):
         self.automato_json = automato_json
         self.automato = self.ler_json(automato_json)
-        self.alphabet = self.automato['alphabet']
-        self.initial_state = self.automato['initial_state']
-        self.final_state = self.automato['final_state']
-        self.transitions = self.automato['transitions']
+        self.alfabeto = self.automato['alphabet']
+        self.estado_inicial = self.automato['initial_state']
+        self.estado_final = self.automato['final_state']
+        self.transicoes = self.automato['transitions']
 
     def __repr__(self):
-        with open(self.automato_json) as file:
-            lines = file.readlines()
-            count = 0
-            string = ''
-            for line in lines:
-                count += 1
-                string += line
+        string = ''
+        string += f'Alfabeto: {self.alfabeto}\n'
+        string += f'Estado Inicial: {self.estado_inicial}\n'
+        string += f'Estado Final: {self.estado_final}\n'
+        string += f'Transições: \n'
+        for chave, valor in self.transicoes.items():
+            string += f'    {chave}: {valor}\n'
         return string
 
     @staticmethod
     def ler_json(automato_json):
         with open(automato_json) as json_file:
-            data = json.load(json_file)
-            return data
+            dicionario = json.load(json_file)
+            return dicionario
 
+    def teste_palavra(self, palavra):
+        for letra in palavra:
+            if letra not in self.alfabeto:
+                print(
+                    f"\nA palavra {palavra} não se enquadra no alfabeto definido.")
+                return False
 
+        estado_atual = self.estado_inicial
 
+        for letra in palavra:
+            estado_atual = (self.transicoes.get(
+                estado_atual).get(letra))
 
+        if estado_atual == self.estado_final:
+            print(f"\nA palavra {palavra} foi aceita.")
+            return True
+        else:
+            print(f"\nA palavra {palavra} foi rejeitada.")
+            return False
