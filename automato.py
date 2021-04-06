@@ -1,11 +1,13 @@
 import json
 import copy
+from itertools import chain, combinations
 
 
 class Automato:
     def __init__(self, automato_json):
         self.automato_json = automato_json
         self.automato = self.ler_json(automato_json)
+        self.tipo = self.automato['type']
         self.alfabeto = self.automato['alphabet']
         self.estado_inicial = self.automato['initial_state']
         self.estados_finais = self.automato['final_states']
@@ -27,6 +29,54 @@ class Automato:
             dicionario = json.load(json_file)
         return dicionario
 
+    def converter_afn_afd(self):
+        novo_estado_criado = True
+
+        while novo_estado_criado:
+            novas_transicoes = {}
+
+            for estado in self.transicoes:
+                novas_transicoes[estado] = {}
+                for transicao in self.transicoes[estado]:
+                    transicao_lista = self.transicoes[estado][transicao]
+                    if len(transicao_lista) == 1:
+                        novas_transicoes[estado][transicao] = transicao_lista
+                    else:
+                        novas_transicoes[estado][transicao] = transicao_lista
+
+            for estado in self.transicoes:
+                for transicao in self.transicoes[estado]:
+                    transicao_lista = self.transicoes[estado][transicao]
+                    if len(transicao_lista) > 1:
+                        novo_estado = ''.join(transicao_lista)
+                        novas_transicoes[novo_estado] = {}
+                        novas_transicoes[estado][transicao] = [novo_estado]
+
+                        for letra in self.alfabeto:
+                            for estado_ in transicao_lista:
+                                if novas_transicoes[estado_].get(letra):
+                                    if not novas_transicoes[novo_estado].get(letra):
+                                        novas_transicoes[novo_estado][letra] = []
+                                    already_in = False
+                                    for item in novas_transicoes[novo_estado][letra]:
+                                        if novas_transicoes[estado_][letra][0] in item:
+                                            already_in = True
+                                    if not already_in:
+                                        novas_transicoes[novo_estado][letra] += novas_transicoes[estado_][letra]
+
+            novo_estado_criado = len(novas_transicoes) > len(self.transicoes)
+            self.transicoes = novas_transicoes
+
+        estados_finais = []
+        for estado in self.transicoes:
+            for transicao in self.transicoes[estado]:
+                transicao_lista = self.transicoes[estado][transicao]
+                self.transicoes[estado][transicao] = ''.join(transicao_lista)
+            for estado_final in self.estados_finais:
+                if estado_final in estado:
+                    estados_finais.append(estado)
+        self.estados_finais = estados_finais
+
     def certificar_funcao_total(self):
         aux_transicoes = copy.deepcopy(self.transicoes)
         for estado in aux_transicoes:
@@ -40,10 +90,12 @@ class Automato:
                 for letra in temp_alfabeto:
                     self.transicoes[estado][letra] = f'aux_{estado}'
 
-    def converter_afn_afd(self):
-        return
-
     def teste_palavra(self, palavra):
+        if self.tipo == 'afn':
+            self.converter_afn_afd()
+
+        self.certificar_funcao_total()
+
         for letra in palavra:
             if letra not in self.alfabeto:
                 print(

@@ -14,5 +14,7 @@ def menu(lista):
     for i, item in enumerate(lista):
         print(f"{i + 1} - {item}")
     print(linha())
-    opc = int(input("Sua opção: "))
-    return opc
+    opc = input("Sua opção: ")
+    if int(opc) not in range(1, len(lista)):
+        opc = input(f"Opção inválida, digite um valor entre 1 e {len(lista)}: ")
+    return int(opc)
