@@ -7,29 +7,35 @@ automato = Automato('automato.json')
 
 cabecalho(f'{"="*20} Pytomatos {"="*20}')
 
-while True:
-    resposta = menu(["Imprimir detalhes do autômato",
-                     "Testar palavra",
-                     "Sair do sistema"])
+# automato.certificar_funcao_total()
+# print(automato)
 
-    if resposta == 1:
-        print()
-        cabecalho("Opção 1 - Imprimir detalhes do autômato")
-        print(automato)
-        sleep(1)
-        print()
+automato.teste_palavra('b')
+# while True:
+#     automato = Automato('automato.json')
 
-    elif resposta == 2:
-        print()
-        cabecalho("Opção 2 - Testar palavra")
-        palavra = input(
-            'Informe a palavra que deseja testar: ')
-        automato.teste_palavra(palavra)
-        sleep(1)
-        print()
+#     resposta = menu(['Imprimir detalhes do autômato',
+#                      'Testar palavra',
+#                      'Sair do sistema'])
 
-    elif resposta == 3:
-        print()
-        cabecalho("Saindo do sistema... Até logo!")
-        sleep(1)
-        break
+#     if resposta == 1:
+#         print()
+#         cabecalho('Opção 1 - Imprimir detalhes do autômato')
+#         print(automato)
+#         sleep(1)
+#         print()
+
+#     elif resposta == 2:
+#         print()
+#         cabecalho('Opção 2 - Testar palavra')
+#         palavra = input(
+#             'Informe a palavra que deseja testar: ')
+#         automato.teste_palavra(palavra)
+#         sleep(1)
+#         print()
+
+#     elif resposta == 3:
+#         print()
+#         cabecalho('Saindo do sistema... Até logo!')
+#         sleep(1)
+#         break
