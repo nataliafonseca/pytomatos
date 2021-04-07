@@ -42,7 +42,8 @@ temos o seguinte `automato.json`:
 }
 ```
 
-Note que as transições recebem apenas o proximo estado, em formato de string!
+Note que as transições recebem apenas o proximo estado, em formato de string!  
+É importante ressaltar ainda que "type" deve receber sempre `afd` para Automatos Finitos Deterministicos.
 
 ### Automatos Finitos Não Deterministicos
 
@@ -73,6 +74,8 @@ temos o seguinte `automato.json`:
   }
 }
 ```
+
+Ressaltando que "type" deve receber sempre `afn` no caso Automatos Finitos Não Deterministicos.
 
 ## Executando o Programa
 
