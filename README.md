@@ -8,11 +8,11 @@ Desenvolvido para a matéria de Automatos Finitos e Deterministicos, ministrada 
 Para carregar o automato, devemos configurar o arquivo `automato.json`, presente na raíz do projeto.
 O seguinte autômato deve conter os seguintes campos:
 
-*Type: É o tipo do autômato, sendo `afd` para Automatos Finitos Deterministicos e `afn` para Automatos Finitos Não Deterministicos;
-*Alphabet: É o conjunto de simbolos reconhecidos pelo automato;
-*Initial_State: É o estado inicial do automato;
-*Final_States: São os estados finais do automato;
-*Transitions: São as transições entre estados do automato;
+* Type: É o tipo do autômato, sendo `afd` para Automatos Finitos Deterministicos e `afn` para Automatos Finitos Não Deterministicos;
+* Alphabet: É o conjunto de simbolos reconhecidos pelo automato;
+* Initial_State: É o estado inicial do automato;
+* Final_States: São os estados finais do automato;
+* Transitions: São as transições entre estados do automato.
 
 ### Automatos Finitos Deterministicos
 
