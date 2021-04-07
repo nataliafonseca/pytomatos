@@ -39,10 +39,7 @@ class Automato:
                 novas_transicoes[estado] = {}
                 for transicao in self.transicoes[estado]:
                     transicao_lista = self.transicoes[estado][transicao]
-                    if len(transicao_lista) == 1:
-                        novas_transicoes[estado][transicao] = transicao_lista
-                    else:
-                        novas_transicoes[estado][transicao] = transicao_lista
+                    novas_transicoes[estado][transicao] = transicao_lista
 
             for estado in self.transicoes:
                 for transicao in self.transicoes[estado]:
@@ -74,7 +71,8 @@ class Automato:
                 self.transicoes[estado][transicao] = ''.join(transicao_lista)
             for estado_final in self.estados_finais:
                 if estado_final in estado:
-                    estados_finais.append(estado)
+                    if estado not in estados_finais:
+                        estados_finais.append(estado)
         self.estados_finais = estados_finais
 
     def certificar_funcao_total(self):

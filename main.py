@@ -16,7 +16,16 @@ while True:
     if resposta == 1:
         print()
         cabecalho('Opção 1 - Imprimir detalhes do autômato')
-        print(automato)
+        if automato.tipo == 'afn':
+            print(automato)
+            sleep(1)
+            print('Convertendo o autômato para AFD...')
+            print()
+            automato.converter_afn_afd()
+            sleep(2)
+            print(f'Autômato convertido: \n{automato}')
+        else:
+            print(automato)
         sleep(1)
         print()
 
