@@ -1,6 +1,5 @@
 import json
 import copy
-from itertools import chain, combinations
 
 
 class Automato:
@@ -30,40 +29,49 @@ class Automato:
         return dicionario
 
     def converter_afn_afd(self):
+        # Iniciamos a conversão criando um novo dicionário de transições, 
+        # copia do original, que receberá as alterações.
+        novas_transicoes = copy.deepcopy(self.transicoes)
+
+        # Variável para controle do loop, uma vez que não estejam mais sendo 
+        # criados novos estados, podemos parar o loop!
         novo_estado_criado = True
 
         while novo_estado_criado:
-            novas_transicoes = {}
-
-            for estado in self.transicoes:
-                novas_transicoes[estado] = {}
-                for transicao in self.transicoes[estado]:
-                    transicao_lista = self.transicoes[estado][transicao]
-                    novas_transicoes[estado][transicao] = transicao_lista
-
             for estado in self.transicoes:
                 for transicao in self.transicoes[estado]:
+                    # Para cada transição, os estados destino serão guardados temporariamente em uma lista (transicao_lista)
                     transicao_lista = self.transicoes[estado][transicao]
                     if len(transicao_lista) > 1:
+                        # Se, na lista, houver mais de um destino, será criado um novo estado unificando-os
                         novo_estado = ''.join(transicao_lista)
                         novas_transicoes[novo_estado] = {}
+                        # O novo estado substituirá os originais no destino da transição
                         novas_transicoes[estado][transicao] = [novo_estado]
 
                         for letra in self.alfabeto:
-                            for estado_ in transicao_lista:
-                                if novas_transicoes[estado_].get(letra):
+                            # Para cada estado presente na lista, checamos os seus respectivos destinos 
+                            # para cada letra do alfato, se houverem. Estes destinos serão adicionados, na letra correspondente,
+                            # Como transições do novo estado criado.
+                            for estado_destino in transicao_lista:
+                                if novas_transicoes[estado_destino].get(letra):
                                     if not novas_transicoes[novo_estado].get(letra):
                                         novas_transicoes[novo_estado][letra] = []
                                     already_in = False
                                     for item in novas_transicoes[novo_estado][letra]:
-                                        if novas_transicoes[estado_][letra][0] in item:
+                                        if novas_transicoes[estado_destino][letra][0] in item:
                                             already_in = True
                                     if not already_in:
-                                        novas_transicoes[novo_estado][letra] += novas_transicoes[estado_][letra]
+                                        novas_transicoes[novo_estado][letra] += novas_transicoes[estado_destino][letra]
 
+            # No fim do loop, checamos se foi realizada a criação de algum novo estado, se sim, o controlador permanece True e o loop
+            # continuará.
             novo_estado_criado = len(novas_transicoes) > len(self.transicoes)
-            self.transicoes = novas_transicoes
+            # O dicionário de transições original do automato recebe o 'novas_transicoes' para iniciar um proximo loop.
+            self.transicoes = copy.deepcopy(novas_transicoes)
 
+        # No fim do loop, vamos passar uma ultima vez pelo dicionário de transições, unificando quaisquer listas com mais de um valor sobressalentes,
+        # transformando todas as listas em strings e checando quais estados possuem o estado final original, formando a nova lista de estados finais!
         estados_finais = []
         for estado in self.transicoes:
             for transicao in self.transicoes[estado]:
@@ -82,11 +90,12 @@ class Automato:
             for letra in self.transicoes[estado]:
                 temp_alfabeto.remove(letra)
             if temp_alfabeto:
-                self.transicoes[f'aux_{estado}'] = {}
-                for letra in self.alfabeto:
-                    self.transicoes[f'aux_{estado}'][letra] = f'aux_{estado}'
+                if not self.transicoes.get('aux'):
+                    self.transicoes['aux'] = {}
+                    for letra in self.alfabeto:
+                        self.transicoes['aux'][letra] = f'aux'
                 for letra in temp_alfabeto:
-                    self.transicoes[estado][letra] = f'aux_{estado}'
+                    self.transicoes[estado][letra] = f'aux'
 
     def teste_palavra(self, palavra):
         if self.tipo == 'afn':

@@ -22,12 +22,11 @@ while True:
             print('Convertendo o autômato para AFD...')
             print()
             automato.converter_afn_afd()
-            sleep(2)
+            sleep(1)
             print(f'Autômato convertido: \n{automato}')
         else:
             print(automato)
         sleep(1)
-        print()
 
     elif resposta == 2:
         print()
